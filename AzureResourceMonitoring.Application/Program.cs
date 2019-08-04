@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using AzureResourceMonitoring.Infrastructure.Azure;
 using AzureResourceMonitoring.Infrastructure.Azure.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,9 +12,7 @@ namespace AzureResourceMonitoring.Application
         static async Task Main(string[] args)
         {
             var configuration = SetupConfiguration();
-            var serviceCollection = SetupServiceCollection();
-
-            ConfigureAzureInfrastructure(configuration, serviceCollection);
+            var serviceCollection = SetupServiceCollection(configuration);
 
             using (var serviceProvider = serviceCollection.BuildServiceProvider())
             {
@@ -38,25 +35,11 @@ namespace AzureResourceMonitoring.Application
                 .Build();
         }
 
-        static IServiceCollection SetupServiceCollection()
+        static IServiceCollection SetupServiceCollection(IConfiguration configuration)
         {
             return new ServiceCollection()
+                .AddAzureInfrastructure(configuration)
                 .AddLogging(c => c.AddConsole().SetMinimumLevel(LogLevel.Debug));
-        }
-
-        static void ConfigureAzureInfrastructure(IConfiguration configuration, IServiceCollection services)
-        {
-            var keyVaultConfig = new KeyVaultConfiguration();
-            configuration.Bind(ConfigurationKeys.KeyVaultPrefix, keyVaultConfig);
-
-            services
-                .AddSingleton(keyVaultConfig)
-                .AddAzureInfrastructure();
-        }
-
-        static class ConfigurationKeys
-        {
-            public const string KeyVaultPrefix = "KeyVault";
         }
     }
 }
