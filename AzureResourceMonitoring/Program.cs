@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Numerics;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
