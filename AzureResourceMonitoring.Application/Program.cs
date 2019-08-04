@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AzureResourceMonitoring.Infrastructure.Azure.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AzureResourceMonitoring.Application
 {
@@ -18,11 +19,13 @@ namespace AzureResourceMonitoring.Application
 
             using (var serviceProvider = serviceCollection.BuildServiceProvider())
             {
+                var logger = serviceProvider.GetService<ILogger<Program>>();
+
                 var servicePrincipalProvider = serviceProvider.GetService<IServicePrincipalProvider>();
                 var credentials = await servicePrincipalProvider.GetCredentialsFromKeyVault();
 
-                Console.WriteLine($"Client: {credentials.ClientId}");
-                Console.WriteLine($"Tenant: {credentials.TenantId}");
+                logger.LogInformation($"Client: {credentials.ClientId}");
+                logger.LogInformation($"Tenant: {credentials.TenantId}");
             }
         }
 
@@ -37,7 +40,8 @@ namespace AzureResourceMonitoring.Application
 
         static IServiceCollection SetupServiceCollection()
         {
-            return new ServiceCollection();
+            return new ServiceCollection()
+                .AddLogging(c => c.AddConsole().SetMinimumLevel(LogLevel.Debug));
         }
 
         static void ConfigureAzureInfrastructure(IConfiguration configuration, IServiceCollection services)
@@ -48,7 +52,6 @@ namespace AzureResourceMonitoring.Application
             services
                 .AddSingleton(keyVaultConfig)
                 .AddTransient<IServicePrincipalProvider, ServicePrincipalProvider>();
-
         }
 
         static class ConfigurationKeys
