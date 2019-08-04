@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace AzureResourceMonitoring.Infrastructure.Azure.Authentication
 {
-    public class ServicePrincipalProvider
+    public class ServicePrincipalProvider : IServicePrincipalProvider
     {
         readonly KeyVaultConfiguration _keyVaultConfiguration;
 
