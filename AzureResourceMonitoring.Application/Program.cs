@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using AzureResourceMonitoring.Infrastructure.Azure.Authentication;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Extensions.Configuration;
@@ -15,18 +16,21 @@ namespace AzureResourceMonitoring.Application
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true)
-                .AddUserSecrets(typeof(Program).Assembly, optional: true)
+                .AddUserSecrets<Program>(optional: true)
                 .Build();
 
-            var credentials = await GetCredentialsFromKeyVault(configuration);
+            var keyVaultConfig = new KeyVaultConfiguration();
+            configuration.Bind(ConfigurationKeys.KeyVaultPrefix, keyVaultConfig);
+
+            var credentials = await GetCredentialsFromKeyVault(keyVaultConfig);
 
             Console.WriteLine($"Client: {credentials.ClientId}");
             Console.WriteLine($"Tenant: {credentials.TenantId}");
         }
 
-        static async Task<AzureCredentials> GetCredentialsFromKeyVault(IConfiguration configuration)
+        static async Task<AzureCredentials> GetCredentialsFromKeyVault(KeyVaultConfiguration configuration)
         {
-            var secretUri = configuration[ConfigurationKeys.SecretName];
+            var secretUri = configuration.SecretUri;
             var azureTokenProvider = new AzureServiceTokenProvider();
 
             var client = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureTokenProvider.KeyVaultTokenCallback));
@@ -40,15 +44,7 @@ namespace AzureResourceMonitoring.Application
 
         static class ConfigurationKeys
         {
-            public const string SecretName = "KeyVault:SecretUri";
-        }
-
-        public class AzureCredentials
-        {
-            public string ClientId { get; set; }
-            public string ClientSecret { get; set; }
-            public string SubscriptionId { get; set; }
-            public string TenantId { get; set; }
+            public const string KeyVaultPrefix = "KeyVault";
         }
     }
 }
