@@ -1,6 +1,6 @@
 ﻿namespace AzureResourceMonitoring.Infrastructure.Azure.Authentication
 {
-    public class AzureCredentials
+    public class ServicePrincipalCredentials
     {
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }

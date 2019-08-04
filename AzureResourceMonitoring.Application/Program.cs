@@ -28,7 +28,7 @@ namespace AzureResourceMonitoring.Application
             Console.WriteLine($"Tenant: {credentials.TenantId}");
         }
 
-        static async Task<AzureCredentials> GetCredentialsFromKeyVault(KeyVaultConfiguration configuration)
+        static async Task<ServicePrincipalCredentials> GetCredentialsFromKeyVault(KeyVaultConfiguration configuration)
         {
             var secretUri = configuration.SecretUri;
             var azureTokenProvider = new AzureServiceTokenProvider();
@@ -39,7 +39,7 @@ namespace AzureResourceMonitoring.Application
 
             var secret = await client.GetSecretAsync(secretUri).ConfigureAwait(false);
 
-            return JsonConvert.DeserializeObject<AzureCredentials>(secret.Value);
+            return JsonConvert.DeserializeObject<ServicePrincipalCredentials>(secret.Value);
         }
 
         static class ConfigurationKeys
