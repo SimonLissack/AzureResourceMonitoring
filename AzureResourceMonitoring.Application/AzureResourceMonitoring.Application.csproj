@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <UserSecretsId>5ca6a318-27dc-4f51-88b6-ca4f789f7f64</UserSecretsId>
+    <AssemblyName>AzureResourceMonitoring.Application</AssemblyName>
+    <RootNamespace>AzureResourceMonitoring.Application</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

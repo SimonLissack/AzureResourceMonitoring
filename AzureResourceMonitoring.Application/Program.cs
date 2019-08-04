@@ -6,7 +6,7 @@ using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
-namespace AzureResourceMonitoring
+namespace AzureResourceMonitoring.Application
 {
     class Program
     {
@@ -24,7 +24,7 @@ namespace AzureResourceMonitoring
             Console.WriteLine($"Tenant: {credentials.TenantId}");
         }
 
-        static async Task<AzureCredentials> GetCredentialsFromKeyVault(IConfigurationRoot configuration)
+        static async Task<AzureCredentials> GetCredentialsFromKeyVault(IConfiguration configuration)
         {
             var secretUri = configuration[ConfigurationKeys.SecretName];
             var azureTokenProvider = new AzureServiceTokenProvider();

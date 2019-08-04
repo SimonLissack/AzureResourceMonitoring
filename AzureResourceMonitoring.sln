@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureResourceMonitoring", "AzureResourceMonitoring\AzureResourceMonitoring.csproj", "{2BC31551-BB69-4E40-899E-3EF13552ABA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureResourceMonitoring.Application", "AzureResourceMonitoring.Application\AzureResourceMonitoring.Application.csproj", "{2BC31551-BB69-4E40-899E-3EF13552ABA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
