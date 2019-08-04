@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+using AzureResourceMonitoring.Infrastructure.Azure;
 using AzureResourceMonitoring.Infrastructure.Azure.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,7 +51,7 @@ namespace AzureResourceMonitoring.Application
 
             services
                 .AddSingleton(keyVaultConfig)
-                .AddTransient<IServicePrincipalProvider, ServicePrincipalProvider>();
+                .AddAzureInfrastructure();
         }
 
         static class ConfigurationKeys
