@@ -8,7 +8,8 @@ namespace AzureResourceMonitoring.Infrastructure.Azure
         public static IServiceCollection AddAzureServices(this IServiceCollection services)
         {
             return services
-                .AddTransient<IServicePrincipalProvider, ServicePrincipalProvider>();
+                .AddTransient<IServicePrincipalProvider, ServicePrincipalProvider>()
+                .AddTransient<IAzureClientProvider, AzureClientClientProvider>();
         }
     }
 }
