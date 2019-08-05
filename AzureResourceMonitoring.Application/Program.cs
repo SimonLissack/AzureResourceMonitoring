@@ -18,11 +18,13 @@ namespace AzureResourceMonitoring.Application
             {
                 var logger = serviceProvider.GetService<ILogger<Program>>();
 
-                var servicePrincipalProvider = serviceProvider.GetService<IServicePrincipalProvider>();
-                var credentials = await servicePrincipalProvider.GetCredentialsFromKeyVault();
+                var azureClient = await serviceProvider.GetService<IAzureClientProvider>().CreateClient();
 
-                logger.LogInformation($"Client: {credentials.ClientId}");
-                logger.LogInformation($"Tenant: {credentials.TenantId}");
+                logger.LogInformation("Resource groups:");
+                foreach (var resourceGroup in await azureClient.ResourceGroups.ListAsync())
+                {
+                    logger.LogInformation(resourceGroup.Name);
+                }
             }
         }
 
