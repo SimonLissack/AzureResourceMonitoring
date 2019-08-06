@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Async;
+using System.IO;
 using System.Threading.Tasks;
-using AzureResourceMonitoring.Infrastructure.Azure.Authentication;
 using AzureResourceMonitoring.Infrastructure.Azure.Management;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,10 +22,10 @@ namespace AzureResourceMonitoring.Application
                 var azureClient = await serviceProvider.GetService<IAzureClientProvider>().CreateClient();
 
                 logger.LogInformation("Resource groups:");
-                foreach (var resourceGroup in await azureClient.ResourceGroups.ListAsync())
+                await azureClient.GetResources().ForEachAsync(item =>
                 {
-                    logger.LogInformation(resourceGroup.Name);
-                }
+                    logger.LogInformation($"{item.Name} in resource group {item.ResourceGroup}. Type: {item.Type}. Region: {item.Region}");
+                });
             }
         }
 
