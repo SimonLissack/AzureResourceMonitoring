@@ -1,5 +1,4 @@
 ﻿using System.Collections.Async;
-using System.Linq;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 
 namespace AzureResourceMonitoring.Infrastructure.Azure.Management
