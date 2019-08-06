@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AzureResourceMonitoring.Infrastructure.Azure.Authentication;
-using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
-using AzureManager = Microsoft.Azure.Management.Fluent.Azure;
 
 namespace AzureResourceMonitoring.Infrastructure.Azure.Management
 {
@@ -16,7 +14,7 @@ namespace AzureResourceMonitoring.Infrastructure.Azure.Management
             _servicePrincipalProvider = servicePrincipalProvider;
         }
 
-        public async Task<IAzure> CreateClient()
+        public async Task<IAzureClient> CreateClient()
         {
             var servicePrincipal = await _servicePrincipalProvider.GetCredentialsFromKeyVault();
 
@@ -28,9 +26,11 @@ namespace AzureResourceMonitoring.Infrastructure.Azure.Management
                     AzureEnvironment.AzureGlobalCloud
                 );
 
-            return await AzureManager
+            var resourceManager = ResourceManager
                 .Authenticate(credentials)
-                .WithDefaultSubscriptionAsync();
+                .WithSubscription(servicePrincipal.SubscriptionId);
+
+            return new AzureClient(resourceManager);
         }
     }
 }
