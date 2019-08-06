@@ -22,7 +22,7 @@ namespace AzureResourceMonitoring.Application
                 var azureClient = await serviceProvider.GetService<IAzureClientProvider>().CreateClient();
 
                 logger.LogInformation("Resource groups:");
-                await azureClient.GetResources().ForEachAsync(item =>
+                await azureClient.GetResources().Take(10).ForEachAsync(item =>
                 {
                     logger.LogInformation($"{item.Name} in resource group {item.ResourceGroup}. Type: {item.Type}. Region: {item.Region}");
                 });
