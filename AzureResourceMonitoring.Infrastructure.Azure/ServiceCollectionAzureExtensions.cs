@@ -9,7 +9,7 @@ namespace AzureResourceMonitoring.Infrastructure.Azure
         {
             return services
                 .AddTransient<IServicePrincipalProvider, ServicePrincipalProvider>()
-                .AddTransient<IAzureClientProvider, AzureClientClientProvider>();
+                .AddTransient<IAzureClientProvider, AzureClientProvider>();
         }
     }
 }

@@ -6,11 +6,11 @@ using AzureManager = Microsoft.Azure.Management.Fluent.Azure;
 
 namespace AzureResourceMonitoring.Infrastructure.Azure.Authentication
 {
-    public class AzureClientClientProvider : IAzureClientProvider
+    public class AzureClientProvider : IAzureClientProvider
     {
         readonly IServicePrincipalProvider _servicePrincipalProvider;
 
-        public AzureClientClientProvider(IServicePrincipalProvider servicePrincipalProvider)
+        public AzureClientProvider(IServicePrincipalProvider servicePrincipalProvider)
         {
             _servicePrincipalProvider = servicePrincipalProvider;
         }
