@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
+using AzureResourceMonitoring.Infrastructure.Azure.Authentication;
 using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
 using AzureManager = Microsoft.Azure.Management.Fluent.Azure;
 
-namespace AzureResourceMonitoring.Infrastructure.Azure.Authentication
+namespace AzureResourceMonitoring.Infrastructure.Azure.Management
 {
     public class AzureClientProvider : IAzureClientProvider
     {

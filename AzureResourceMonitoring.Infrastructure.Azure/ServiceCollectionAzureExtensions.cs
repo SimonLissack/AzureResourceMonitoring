@@ -1,4 +1,5 @@
 ﻿using AzureResourceMonitoring.Infrastructure.Azure.Authentication;
+using AzureResourceMonitoring.Infrastructure.Azure.Management;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AzureResourceMonitoring.Infrastructure.Azure

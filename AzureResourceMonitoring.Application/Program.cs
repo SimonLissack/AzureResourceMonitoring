@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using AzureResourceMonitoring.Infrastructure.Azure.Authentication;
+using AzureResourceMonitoring.Infrastructure.Azure.Management;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
