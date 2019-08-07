@@ -21,7 +21,8 @@ namespace AzureResourceMonitoring.Infrastructure.Azure.Management
                     Name = resource.Name,
                     ResourceGroup = resource.ResourceGroupName,
                     Type = resource.Type,
-                    Region = resource.RegionName
+                    Region = resource.RegionName,
+                    Id = resource.Id
                 });
             }
         });
