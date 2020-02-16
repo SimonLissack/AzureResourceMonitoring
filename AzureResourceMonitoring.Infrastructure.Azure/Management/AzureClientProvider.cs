@@ -9,6 +9,8 @@ namespace AzureResourceMonitoring.Infrastructure.Azure.Management
     {
         readonly IServicePrincipalProvider _servicePrincipalProvider;
 
+        IAzureClient _cachedClient;
+
         public AzureClientProvider(IServicePrincipalProvider servicePrincipalProvider)
         {
             _servicePrincipalProvider = servicePrincipalProvider;
@@ -16,21 +18,26 @@ namespace AzureResourceMonitoring.Infrastructure.Azure.Management
 
         public async Task<IAzureClient> CreateClient()
         {
-            var servicePrincipal = await _servicePrincipalProvider.GetCredentialsFromKeyVault();
+            if (_cachedClient == null)
+            {
+                var servicePrincipal = await _servicePrincipalProvider.GetCredentialsFromKeyVault();
 
-            var credentials = new AzureCredentialsFactory()
-                .FromServicePrincipal(
-                    servicePrincipal.ClientId,
-                    servicePrincipal.ClientSecret,
-                    servicePrincipal.TenantId,
-                    AzureEnvironment.AzureGlobalCloud
-                );
+                var credentials = new AzureCredentialsFactory()
+                    .FromServicePrincipal(
+                        servicePrincipal.ClientId,
+                        servicePrincipal.ClientSecret,
+                        servicePrincipal.TenantId,
+                        AzureEnvironment.AzureGlobalCloud
+                    );
 
-            var resourceManager = ResourceManager
-                .Authenticate(credentials)
-                .WithSubscription(servicePrincipal.SubscriptionId);
+                var resourceManager = ResourceManager
+                    .Authenticate(credentials)
+                    .WithSubscription(servicePrincipal.SubscriptionId);
 
-            return new AzureClient(resourceManager);
+                _cachedClient = new AzureClient(resourceManager);
+            }
+
+            return _cachedClient;
         }
     }
 }
