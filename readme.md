@@ -1,8 +1,10 @@
 # Azure Resource Monitoring
 
+This project uses a Service Prinicipal stored in Key Vault to list the resources visible to said Service Principal.
+
 ## Pre-ramble
 
-The purpose of this project is to gather a list of active Azure resources for the purposes of monitoring. It's a bit of a work in progress though...
+This is mainly for testing and playing around with new features in .net and Azure cloud. Specifically the aim is to handle configuration of authentication to Azure without having any secrets in configuration, stored out of the project or otherwise.
 
 ## Prerequisites;
 
